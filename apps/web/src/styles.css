@@ -67,7 +67,8 @@ body {
 
 .primary-cta,
 .secondary-cta,
-.lang-chip {
+.lang-chip,
+.nav-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -85,7 +86,8 @@ body {
 }
 
 .secondary-cta,
-.lang-chip {
+.lang-chip,
+.nav-pill {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.05);
   color: var(--paper);
@@ -93,8 +95,15 @@ body {
 
 .primary-cta:hover,
 .secondary-cta:hover,
-.lang-chip:hover {
+.lang-chip:hover,
+.nav-pill:hover {
   transform: translateY(-2px);
+}
+
+.nav-pill-active {
+  border-color: rgba(228, 179, 99, 0.45);
+  background: rgba(228, 179, 99, 0.14);
+  color: #fff7e8;
 }
 
 .glass-card,
@@ -160,6 +169,73 @@ body {
 
 .shadow-panel {
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.section-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(228, 179, 99, 0.74);
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 2vw, 2.6rem);
+  line-height: 1.15;
+  color: white;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.status-pill-success {
+  background: rgba(79, 176, 167, 0.18);
+  color: #b7f3e4;
+}
+
+.status-pill-pending {
+  background: rgba(228, 179, 99, 0.18);
+  color: #f6d8a9;
+}
+
+.timeline-item {
+  border-radius: 1.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1rem 1rem 1rem 1.15rem;
+  line-height: 1.85;
+  color: rgba(237, 242, 239, 0.82);
+}
+
+.feature-band {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1.15rem;
+}
+
+.feature-band-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(228, 179, 99, 0.74);
+}
+
+.feature-band-copy {
+  margin-top: 0.8rem;
+  line-height: 1.8;
+  color: rgba(237, 242, 239, 0.78);
 }
 
 @media (max-width: 768px) {

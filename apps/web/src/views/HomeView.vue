@@ -1,105 +1,120 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
-import { useAppStore } from "../stores/app";
+import { useI18n } from "vue-i18n";
+import AppShellHeader from "../components/AppShellHeader.vue";
 
 const { t } = useI18n();
-const appStore = useAppStore();
 
-const moduleCards = [
-  "Tenant-aware admin and resident portals",
-  "Billing, penalties, utilities, and payment adapters",
-  "Marketplace, disputes, and configurable commission sharing",
-  "Maintenance, complaints, booking, visitors, and notifications",
-  "Super admin, white-label branding, and AI insight rules"
-];
-
-const docCards = [
+const experienceCards = computed(() => [
   {
-    title: "Architecture",
-    body: "Layered backend, schema-per-tenant isolation, queues, storage, and integration boundaries."
+    title: t("residentTitle"),
+    body: t("residentCopy"),
+    cta: t("viewResident"),
+    to: "/resident"
   },
   {
-    title: "Milestones",
-    body: "A 16-week plan mapped to foundational, operational, financial, and handover phases."
-  },
-  {
-    title: "PoC",
-    body: "Proof strategy for host-based tenant resolution and schema isolation before business modules."
+    title: t("adminTitle"),
+    body: t("adminCopy"),
+    cta: t("viewAdmin"),
+    to: "/admin"
   }
-];
+]);
+
+const moduleCards = computed(() => [
+  t("moduleOne"),
+  t("moduleTwo"),
+  t("moduleThree"),
+  t("moduleFour"),
+  t("moduleFive"),
+  t("moduleSix")
+]);
+
+const timelineCards = computed(() => [
+  { title: t("timelineOneTitle"), body: t("timelineOneBody") },
+  { title: t("timelineTwoTitle"), body: t("timelineTwoBody") },
+  { title: t("timelineThreeTitle"), body: t("timelineThreeBody") },
+  { title: t("timelineFourTitle"), body: t("timelineFourBody") }
+]);
+
+const metrics = computed(() => [
+  { label: t("metricTenancy"), value: "Schema", body: t("metricTenancyBody") },
+  { label: t("metricFinance"), value: "Atomic + Idempotent", body: t("metricFinanceBody") },
+  { label: t("metricDelivery"), value: "16 Weeks", body: t("metricDeliveryBody") }
+]);
 </script>
 
 <template>
-  <main class="min-h-screen bg-ink text-paper">
-    <section class="relative overflow-hidden px-6 py-8 md:px-12">
+  <main class="min-h-screen bg-ink px-6 py-8 text-paper md:px-12">
+    <section class="relative overflow-hidden">
       <div class="hero-orb hero-orb-left"></div>
       <div class="hero-orb hero-orb-right"></div>
 
-      <header class="mx-auto flex max-w-7xl flex-col gap-5 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur md:flex-row md:items-center md:justify-between">
-        <div>
-          <div class="text-sm uppercase tracking-[0.35em] text-sand/80">{{ t("brand") }}</div>
-          <div class="mt-2 text-2xl font-semibold text-white">{{ t("subtitle") }}</div>
-        </div>
+      <AppShellHeader
+        :eyebrow="t('brand')"
+        :title="t('heroTitle')"
+        :subtitle="t('heroCopy')"
+      />
 
-        <div class="flex items-center gap-3">
-          <button class="lang-chip" @click="appStore.setLocale('en')">EN</button>
-          <button class="lang-chip" @click="appStore.setLocale('ar')">AR</button>
-          <button class="lang-chip" @click="appStore.setLocale('ku')">KU</button>
-        </div>
-      </header>
-
-      <div class="mx-auto mt-10 grid max-w-7xl gap-8 lg:grid-cols-[1.3fr_0.9fr]">
+      <div class="mx-auto mt-8 grid max-w-7xl gap-8 lg:grid-cols-[1.2fr_0.8fr]">
         <div class="space-y-6">
           <p class="w-fit rounded-full border border-sand/30 bg-sand/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-sand">
-            Phase 1 Foundation
-          </p>
-          <h1 class="max-w-4xl text-5xl font-semibold leading-tight text-white md:text-7xl">
-            {{ t("heroTitle") }}
-          </h1>
-          <p class="max-w-3xl text-lg leading-8 text-paper/80 md:text-xl">
-            {{ t("heroCopy") }}
+            {{ t("phaseLabel") }}
           </p>
 
           <div class="flex flex-wrap gap-4">
-            <RouterLink class="primary-cta" to="/admin">{{ t("viewAdmin") }}</RouterLink>
-            <span class="secondary-cta">{{ t("architecture") }}</span>
-            <span class="secondary-cta">{{ t("delivery") }}</span>
+            <RouterLink class="primary-cta" to="/resident">{{ t("viewResident") }}</RouterLink>
+            <RouterLink class="secondary-cta" to="/admin">{{ t("viewAdmin") }}</RouterLink>
+            <a class="secondary-cta" href="#timeline">{{ t("delivery") }}</a>
           </div>
 
           <div class="grid gap-4 md:grid-cols-2">
-            <article v-for="card in docCards" :key="card.title" class="glass-card">
+            <article v-for="card in experienceCards" :key="card.to" class="glass-card">
               <div class="text-sm uppercase tracking-[0.3em] text-sand/70">{{ card.title }}</div>
               <p class="mt-4 text-sm leading-7 text-paper/75">{{ card.body }}</p>
+              <RouterLink :to="card.to" class="mt-5 inline-flex text-sm font-semibold text-sand">
+                {{ card.cta }}
+              </RouterLink>
             </article>
           </div>
         </div>
 
         <aside class="panel-stack">
-          <div class="metric-card">
-            <div class="metric-label">Tenancy</div>
-            <div class="metric-value">Schema</div>
-            <div class="metric-copy">Isolated PostgreSQL schema per compound with automated routing.</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Financial safety</div>
-            <div class="metric-value">Atomic + Idempotent</div>
-            <div class="metric-copy">Payments, invoices, and marketplace transactions protected against duplicate execution.</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Delivery</div>
-            <div class="metric-value">16 Weeks</div>
-            <div class="metric-copy">Six execution milestones from foundation PoC to UAT and handover.</div>
+          <div v-for="metric in metrics" :key="metric.label" class="metric-card">
+            <div class="metric-label">{{ metric.label }}</div>
+            <div class="metric-value">{{ metric.value }}</div>
+            <div class="metric-copy">{{ metric.body }}</div>
           </div>
         </aside>
       </div>
     </section>
 
-    <section class="mx-auto grid max-w-7xl gap-4 px-6 pb-16 md:grid-cols-2 xl:grid-cols-5">
-      <article v-for="moduleCard in moduleCards" :key="moduleCard" class="module-card">
-        <div class="module-dot"></div>
-        <p class="text-sm leading-7 text-paper/80">{{ moduleCard }}</p>
-      </article>
+    <section class="mx-auto mt-10 max-w-7xl">
+      <div class="section-heading">
+        <div class="section-eyebrow">{{ t("modules") }}</div>
+        <h2 class="section-title">{{ t("modulesTitle") }}</h2>
+      </div>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <article v-for="moduleCard in moduleCards" :key="moduleCard" class="module-card">
+          <div class="module-dot"></div>
+          <p class="text-sm leading-7 text-paper/80">{{ moduleCard }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="timeline" class="mx-auto mt-12 max-w-7xl">
+      <div class="section-heading">
+        <div class="section-eyebrow">{{ t("delivery") }}</div>
+        <h2 class="section-title">{{ t("timelineTitle") }}</h2>
+      </div>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <article v-for="card in timelineCards" :key="card.title" class="glass-card">
+          <div class="text-sm uppercase tracking-[0.3em] text-sand/70">{{ card.title }}</div>
+          <p class="mt-4 text-sm leading-7 text-paper/75">{{ card.body }}</p>
+        </article>
+      </div>
     </section>
   </main>
 </template>
