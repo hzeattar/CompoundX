@@ -1,0 +1,18 @@
+{
+  "name": "compoundx-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "main": "electron/main.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "cross-env COMPOUNDX_ADMIN_URL=http://localhost:5173/admin electron .",
+    "package:check": "node -e \"const fs=require('fs'); ['electron/main.js','electron/preload.js'].forEach((file)=>fs.accessSync(file)); console.log('desktop shell ok')\""
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^35.1.5"
+  }
+}

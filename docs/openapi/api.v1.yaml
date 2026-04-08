@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: CompoundX API
+  version: 1.0.0
+  description: Initial API contract skeleton for CompoundX Phase 1.
+servers:
+  - url: https://api.compoundx.com/api/v1
+    description: Production
+  - url: https://staging-api.compoundx.com/api/v1
+    description: Staging
+tags:
+  - name: Health
+  - name: Auth
+  - name: Branding
+  - name: Resident Dashboard
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check
+      responses:
+        "200":
+          description: API is reachable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login with email or mobile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identifier, password]
+              properties:
+                identifier:
+                  type: string
+                password:
+                  type: string
+                tenant_hint:
+                  type: string
+      responses:
+        "200":
+          description: Login success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh JWT tokens
+      responses:
+        "200":
+          description: Tokens refreshed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+  /branding/bootstrap:
+    get:
+      tags: [Branding]
+      summary: Load tenant theme and public branding metadata
+      responses:
+        "200":
+          description: Branding payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+  /resident/dashboard:
+    get:
+      tags: [Resident Dashboard]
+      summary: Load resident summary cards and alerts
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Resident dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ApiResponse:
+      type: object
+      required: [success, data, message, errors, meta]
+      properties:
+        success:
+          type: boolean
+        data:
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        errors:
+          type: object
+          nullable: true
+        meta:
+          type: object
+          nullable: true
